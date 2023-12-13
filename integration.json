@@ -1,0 +1,7 @@
+{
+  "builders": [
+    "index.docker.io/paketobuildpacks/builder-jammy-buildpackless-base:latest"
+  ],
+  "nginx": "github.com/paketo-buildpacks/nginx",
+  "staticRequire": "github.com/ninech/buildpack-static-require"
+}
