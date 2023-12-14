@@ -101,5 +101,35 @@ func testDefault(t *testing.T, context spec.G, it spec.S) {
 				Eventually(container).Should(Serve(ContainSubstring("satic site served from public dir")).WithEndpoint("/index.html"))
 			})
 		})
+
+		context("when building the react_app", func() {
+			it("serves up the built index.html", func() {
+				var err error
+				source, err = occam.Source(filepath.Join("testdata", "react_app"))
+				Expect(err).NotTo(HaveOccurred())
+
+				var logs fmt.Stringer
+				image, logs, err = pack.WithNoColor().Build.
+					WithPullPolicy("never").
+					WithBuildpacks(
+						buildpack,
+						config.WebServers,
+						config.StaticRequire,
+					).
+					Execute(name, source)
+				Expect(err).NotTo(HaveOccurred(), logs.String())
+
+				container, err = docker.Container.Run.
+					WithEnv(map[string]string{"PORT": "8088"}).
+					WithPublish("8088").
+					Execute(image.ID)
+				Expect(err).ToNot(HaveOccurred())
+
+				// we expect the string %PUBLIC% to not be in the index.html
+				// anymore since npm build should take care of replacing that
+				// during build.
+				Eventually(container).Should(Serve(Not(ContainSubstring("%PUBLIC%"))).WithEndpoint("/index.html"))
+			})
+		})
 	})
 }
