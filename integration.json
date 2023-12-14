@@ -3,5 +3,6 @@
     "index.docker.io/paketobuildpacks/builder-jammy-buildpackless-base:latest"
   ],
   "nginx": "github.com/paketo-buildpacks/nginx",
+  "webServers": "github.com/paketo-buildpacks/web-servers",
   "staticRequire": "github.com/ninech/buildpack-static-require"
 }

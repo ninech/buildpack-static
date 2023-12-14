@@ -27,6 +27,7 @@ var (
 
 	config struct {
 		Nginx         string `json:"nginx"`
+		WebServers    string `json:"webServers"`
 		StaticRequire string `json:"staticRequire"`
 	}
 )
@@ -65,6 +66,10 @@ func TestIntegration(t *testing.T) {
 
 	config.Nginx, err = buildpackStore.Get.
 		Execute(config.Nginx)
+	Expect(err).ToNot(HaveOccurred())
+
+	config.WebServers, err = buildpackStore.Get.
+		Execute(config.WebServers)
 	Expect(err).ToNot(HaveOccurred())
 
 	config.StaticRequire, err = buildpackStore.Get.

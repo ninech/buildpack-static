@@ -1,7 +1,12 @@
 package static
 
 import (
+	"errors"
+	"os"
+	"path/filepath"
+
 	require "github.com/ninech/buildpack-static-require"
+	"github.com/paketo-buildpacks/libnodejs"
 	"github.com/paketo-buildpacks/packit/v2"
 	"github.com/paketo-buildpacks/packit/v2/scribe"
 )
@@ -26,6 +31,14 @@ func Detect(logger scribe.Emitter) packit.DetectFunc {
 			return packit.DetectResult{}, err
 		}
 
+		ok, nodeAppPath, err := isNodeApp(context.WorkingDir)
+		if err != nil {
+			return packit.DetectResult{}, err
+		}
+		if ok {
+			webRoot = filepath.Join(nodeAppPath, "build")
+		}
+
 		result := packit.DetectResult{
 			Plan: packit.BuildPlan{
 				Provides: []packit.BuildPlanProvision{{Name: name}},
@@ -39,5 +52,26 @@ func Detect(logger scribe.Emitter) packit.DetectFunc {
 		}
 
 		return result, nil
+	}
+}
+
+// isNodeApp checks if there is a package.json in the "projectPath". By
+// default that is the workspace but it could also be overridden using
+// BP_NODE_PROJECT_PATH.
+func isNodeApp(workingDir string) (bool, string, error) {
+	projectPath, err := libnodejs.FindProjectPath(workingDir)
+	if err != nil {
+		return false, "", err
+	}
+
+	if _, err := libnodejs.ParsePackageJSON(projectPath); err == nil {
+		relativePath, err := filepath.Rel(workingDir, projectPath)
+		return true, relativePath, err
+	} else {
+		if errors.Is(err, os.ErrNotExist) {
+			return false, "", nil
+		}
+
+		return false, "", err
 	}
 }
