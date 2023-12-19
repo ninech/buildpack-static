@@ -38,6 +38,8 @@ func Build(logger scribe.Emitter) packit.BuildFunc {
 					// https://github.com/paketo-buildpacks/nginx/issues/447
 					LastModifiedValue: time.Now().UTC().Format(http.TimeFormat),
 					ETag:              false,
+					// allow from Pod CIDR
+					SetRealIPFrom: "10.42.0.0/16",
 					Configuration: nginx.Configuration{
 						NGINXConfLocation: nginxConf,
 						WebServerRoot:     webRoot,
