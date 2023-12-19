@@ -3,8 +3,10 @@ package static
 import (
 	"errors"
 	"fmt"
+	"net/http"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/paketo-buildpacks/nginx"
 	"github.com/paketo-buildpacks/packit/v2"
@@ -29,10 +31,17 @@ func Build(logger scribe.Emitter) packit.BuildFunc {
 		nginxConf := filepath.Join(context.WorkingDir, nginx.ConfFile)
 		if _, err := os.Stat(nginxConf); err != nil {
 			if errors.Is(err, os.ErrNotExist) {
-				confGen := nginx.NewDefaultConfigGenerator(logger)
-				if err := confGen.Generate(nginx.Configuration{
-					NGINXConfLocation: nginxConf,
-					WebServerRoot:     webRoot,
+				confGen := NewDefaultConfigGenerator(logger)
+				if err := confGen.Generate(Configuration{
+					// we set the last-modified header to the current time
+					// during build. This works around the issue described in:
+					// https://github.com/paketo-buildpacks/nginx/issues/447
+					LastModifiedValue: time.Now().UTC().Format(http.TimeFormat),
+					ETag:              false,
+					Configuration: nginx.Configuration{
+						NGINXConfLocation: nginxConf,
+						WebServerRoot:     webRoot,
+					},
 				}); err != nil {
 					return packit.BuildResult{}, packit.Fail.WithMessage("unable to create nginx.conf: %s", err)
 				}
