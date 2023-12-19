@@ -25,6 +25,7 @@ type DefaultConfigGenerator struct {
 type Configuration struct {
 	LastModifiedValue string
 	ETag              bool
+	SetRealIPFrom     string
 	nginx.Configuration
 }
 
