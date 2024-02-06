@@ -5,10 +5,10 @@ go 1.21
 require (
 	github.com/BurntSushi/toml v1.3.2
 	github.com/ninech/buildpack-static-require v0.0.2
-	github.com/onsi/gomega v1.29.0
+	github.com/onsi/gomega v1.30.0
 	github.com/paketo-buildpacks/libnodejs v0.2.0
 	github.com/paketo-buildpacks/nginx v0.15.7
-	github.com/paketo-buildpacks/occam v0.17.0
+	github.com/paketo-buildpacks/occam v0.18.2
 	github.com/paketo-buildpacks/packit/v2 v2.12.0
 	github.com/sclevine/spec v1.4.0
 )
@@ -24,7 +24,7 @@ require (
 	github.com/Masterminds/semver/v3 v3.2.1 // indirect
 	github.com/Masterminds/sprig/v3 v3.2.3 // indirect
 	github.com/Microsoft/go-winio v0.6.1 // indirect
-	github.com/Microsoft/hcsshim v0.11.2 // indirect
+	github.com/Microsoft/hcsshim v0.11.4 // indirect
 	github.com/Netflix/go-env v0.0.0-20220526054621-78278af1949d // indirect
 	github.com/ProtonMail/go-crypto v0.0.0-20230828082145-3c4c8a2d2371 // indirect
 	github.com/acobaugh/osrelease v0.1.0 // indirect
@@ -42,7 +42,7 @@ require (
 	github.com/bmatcuk/doublestar/v4 v4.6.1 // indirect
 	github.com/cenkalti/backoff/v4 v4.2.1 // indirect
 	github.com/cloudflare/circl v1.3.6 // indirect
-	github.com/containerd/containerd v1.7.8 // indirect
+	github.com/containerd/containerd v1.7.11 // indirect
 	github.com/containerd/log v0.1.0 // indirect
 	github.com/containerd/stargz-snapshotter/estargz v0.15.0 // indirect
 	github.com/cpuguy83/dockercfg v0.3.1 // indirect
@@ -102,7 +102,7 @@ require (
 	github.com/olekukonko/tablewriter v0.0.5 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0-rc5 // indirect
-	github.com/opencontainers/runc v1.1.9 // indirect
+	github.com/opencontainers/runc v1.1.12 // indirect
 	github.com/pelletier/go-toml v1.9.5 // indirect
 	github.com/pierrec/lz4/v4 v4.1.18 // indirect
 	github.com/pjbgf/sha1cd v0.3.0 // indirect
