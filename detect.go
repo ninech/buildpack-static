@@ -36,7 +36,7 @@ func Detect(logger scribe.Emitter) packit.DetectFunc {
 			return packit.DetectResult{}, err
 		}
 		if ok {
-			webRoot = filepath.Join(nodeAppPath, "build")
+			webRoot = nodeWebRoot(nodeAppPath)
 		}
 
 		result := packit.DetectResult{
@@ -74,4 +74,14 @@ func isNodeApp(workingDir string) (bool, string, error) {
 
 		return false, "", err
 	}
+}
+
+func nodeWebRoot(nodeAppPath string) string {
+	// if explicitly specified, always use the WebRootEnv
+	if path, ok := os.LookupEnv(require.WebRootEnv); ok {
+		return path
+	}
+
+	// build is the default for react apps
+	return filepath.Join(nodeAppPath, "build")
 }
